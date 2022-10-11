@@ -13,16 +13,17 @@ class Jugador{
         let cadena = "";
         let i = 1;
         this.autos.forEach(auto => {
-            cadena+=(i+" - "+auto.modelo+" ");
+            cadena+=(i+" - "+auto.modelo+" -- ");
             i+=1;
         });
         alert(cadena);
     }
 }
 
-let nombreJugador = prompt("Ingresa tu nombre").toLocaleUpperCase();
+let nombreJugador = prompt("Ingresa tu nombre");
 let jugador1 = new Jugador(nombreJugador);
 alert("Bienvenido "+jugador1.nombre+", tenes 100 puntos");
+
 
 class Automobil{
     constructor(modelo, tipo){
@@ -81,28 +82,6 @@ function generarAuto() {
     return miAuto;
 }
 
-// function generarAutoJugador() {
-//     alert("Tenes 5 oportunidades para generar un auto")
-//     continuar = "si";
-//     cont = 4;
-//     alert("Tu primer auto es...")
-//     autoAux = generarAuto();
-//     alert(autoAux.modelo +" "+autoAux.tipo);
-//     while (continuar.toLowerCase() ==="si"  &&  cont>0 ) {
-//         continuar = prompt("Queres generar otro auto? si/no");
-//         if (continuar.toLowerCase() === "si") {
-//             autoAux = generarAuto();
-//             alert(autoAux.modelo +" "+autoAux.tipo);
-//             cont--;
-//         } else {
-//             cont=0;
-//         }
-        
-//     }
-//     alert("Tu auto es: " + miAuto.modelo +" Tipo: "+miAuto.tipo);
-//     return miAuto;
-// }
-
 function carrera(auto){
     if (auto.combustible >= 25) {
         oponente1 = generarAuto();
@@ -138,8 +117,6 @@ function carrera(auto){
     } else {
         alert("No tenes combustible")
     }
-
-
 }
 
 let op = 1;
@@ -181,9 +158,9 @@ while (op !== 3) {
                         alert("obtuviste un "+ autoAux.modelo);
                         op4 = prompt("quieres agregar este auto a tu garage? si/no (tenes una capacidad de 10 autos)");
                         if (op4.toLowerCase() === "si") {
-                            if (jugador1.autos.length <= 3) {
+                            if (jugador1.autos.length <= 9) {
                                 jugador1.agregarAuto(autoAux)
-                                alert("Auto nuevo agregado, se regresara al garage");
+                                alert("Auto nuevo agregado, se regresara al menu");
                             } else {
                                 alert("Tu garage esta lleno")
                                 op = prompt("quitar un auto para agregar el nuevo? si/no")
@@ -197,14 +174,14 @@ while (op !== 3) {
                                     }
                                     alert("Auto eliminado");
                                     jugador1.agregarAuto(autoAux);
-                                    alert("Auto nuevo agregado, se regresara al garage");
+                                    alert("Auto nuevo agregado, se regresara al menu");
                                 } else {
-                                    alert("No se agrego el auto, se regresara al garage")
+                                    alert("No se agrego el auto, se regresara al menu")
                                 }
                             }
                         }
                     } else {
-                        alert("Tenes menos de 20 puntos y no podes comprar autos, se regresara al garage");
+                        alert("Tenes menos de 20 puntos y no podes comprar autos, se regresara al menu");
                     }
                     break;
 
@@ -219,22 +196,3 @@ while (op !== 3) {
             break;
     }
 }
-
-// let autoJugador = generarAutoJugador();
-// let puntos=0;
-// let resp="si";
-
-
-
-
-// while (autoJugador.combustible>=25 && resp==="si") {
-//     resp = prompt("Queres participar de una carrera? si/no")
-//     if (resp.toLowerCase()==="si") {
-//         puntos+=carrera(autoJugador);
-//     } else {
-//         alert("Gracias por jugar tu puntaje es: "+puntos)
-//     }
-// }
-// if (autoJugador.combustible<=0) {
-//     alert("Gracias por jugar tu puntaje es: "+puntos)
-// }
