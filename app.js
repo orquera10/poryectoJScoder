@@ -19,12 +19,6 @@ class Jugador{
         alert(cadena);
     }
 }
-
-let nombreJugador = prompt("Ingresa tu nombre");
-let jugador1 = new Jugador(nombreJugador);
-alert("Bienvenido "+jugador1.nombre+", tenes 100 puntos");
-
-
 class Automobil{
     constructor(modelo, tipo){
         this.modelo = modelo;
@@ -82,117 +76,220 @@ function generarAuto() {
     return miAuto;
 }
 
-function carrera(auto){
+function carrera(auto, oponente1, oponente2){
     if (auto.combustible >= 25) {
-        oponente1 = generarAuto();
-        alert("Tu oponente 1 es: " + oponente1.modelo + " Tipo: " + oponente1.tipo);
-        oponente2 = generarAuto();
-        alert("Tu oponente 2 es: " + oponente2.modelo + " Tipo: " + oponente2.tipo);
         num = Math.random() * 100;
-        alert("Inicia la carrera")
         auto.combustible -= 25;
         if (auto.tipo === "Lujo" && num <= 90 && oponente1.tipo !== "Lujo" && oponente2.tipo !== "Lujo") {
-            alert("Ganasteeeeee, sumaste 25 puntos");
             return 25
-        } else if (auto.tipo === "Lujo" && num <= 60 && (oponente1.tipo === "Lujo" || oponente2.tipo === "Lujo")) {
-            alert("Ganasteeeeee, sumaste 30 puntos");
+        } else if (auto.tipo === "Lujo" && num <= 60 && (oponente1.tipo === "Lujo" || oponente2.tipo === "Lujo")) {            
             return 30
-        } else if (auto.tipo === "Medio" && num <= 15 && (oponente1.tipo === "Lujo" || oponente2.tipo === "Lujo")) {
-            alert("Ganasteeeeee, sumaste 40 puntos");
+        } else if (auto.tipo === "Medio" && num <= 15 && (oponente1.tipo === "Lujo" || oponente2.tipo === "Lujo")) {  
             return 40
         } else if (auto.tipo === "Medio" && num <= 60 && (oponente1.tipo === "Medio" || oponente1.tipo === "Basico") && (oponente2.tipo === "Medio" || oponente2.tipo === "Basico")) {
-            alert("Ganasteeeeee, sumaste 30 puntos");
             return 30
         } else if (auto.tipo === "Basico" && num <= 60 && oponente1.tipo === "Basico" && oponente2.tipo === "Basico") {
-            alert("Ganasteeeeee, sumaste 30 puntos");
             return 30
         } else if (num <= 7) {
-            alert("Ganasteeeeee, sumaste 50 puntos");
             return 50
         }
         else {
-            alert("Perdiste, restaste 15 puntos");
             return -15
         }
     } else {
         alert("No tenes combustible")
     }
 }
-
-let op = 1;
-while (op !== 3) {
-    op = Number(prompt("ELIGE UNA OPCION: 1-CORRER CARRERA 2-GARAGE 3-SALIR"))
-    switch (op) {
-        case 1:
-            if (jugador1.autos.length === 0) {
-                alert("No tenes autos en tu garage!!! (ingresa al garage y compra autos)")
-            } else {
-                alert("A COMPETIR!!!")
-                op = prompt("Estas listo para correr? si/no");
-                if (op.toLowerCase() === "si") {
-                    jugador1.sumarPuntos(carrera(jugador1.autos[jugador1.autoIndex]));
-                } else {
-                    alert("Volviendo al menu principal")
+if (localStorage.jugador1=== undefined) {
+    
+    (async () => {
+        const { value: nombre } = await Swal.fire({
+            title: 'Ingresa tu nombre',
+            input: 'text',
+            inputLabel: 'Tu nombre es:',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Tienes que ingresar tu nombre'
                 }
-
             }
-            break;
-        case 2:
-            op2 = Number(prompt("ELIGE UNA OPCION: 1-ELEGIR AUTO 2-CONSEGUIR AUTOS 3-SALIR"));
-            switch (op2) {
-                case 1:
-                    if (jugador1.autos.length === 0) {
-                        alert("No tenes autos (entra a la opcion conseguir autos)")
-                    } else {
-                        alert("Elegi un auto")
-                        jugador1.mostrarAutos();
-                        op3 = prompt("Ingresa el auto elegido:")
-                        jugador1.elegirAuto(op3);
-                    }
-                    break;
-                case 2:
-                    alert("Generar un auto nuevo te cuesta 20puntos");
-                    if (jugador1.puntos >= 20) {
-                        autoAux = generarAuto();
+        })
+
+        if (nombre) {
+            Swal.fire(`Bienvenido ${nombre}, tenes 100 puntos`)
+            // nomUser = nombre
+            document.querySelector("#nomUsuario").textContent = nombre
+            document.querySelector("#puntos").textContent = "100"
+            document.querySelector("#monedas").textContent = "0"
+            jugador1 = new Jugador(nombre)
+            jugadorJSON = JSON.stringify(jugador1)
+            localStorage.setItem("jugador1", jugadorJSON)
+        }
+    })()
+    
+} else {
+    jugador1 = JSON.parse(localStorage.jugador1)
+}
+// let nomUser
+
+
+
+
+const btnJugar = document.querySelector("#btnJugar")
+const btnGaraje = document.querySelector("#btnGaraje")
+const btnTienda = document.querySelector("#btnTienda")
+const h2s = document.querySelectorAll("h2")
+const pantalla = document.querySelector("#pantalla")
+
+btnJugar.onclick = function pantallaJugar () {
+    btnJugar.classList.add("botonActiv")
+    h2s[0].setAttribute("style", "font-size: 64px;");
+    btnGaraje.classList.remove("botonActiv")
+    h2s[1].removeAttribute("style");
+    btnTienda.classList.remove("botonActiv")
+    h2s[2].removeAttribute("style");
+
+    if (jugador1.autos[0]=== undefined) {
+        pantalla.innerHTML = `
+            <h1>Selecciona tu Auto</h1>
+            <div class="centrar rectangulo">
+                <img src="./img/iconoPlus.svg" alt="" id="btnAgregar">
+            </div> 
+            <button class="botonInac botonActiv m" style="background:grey; cursor:auto"><h2>Correr!!!</h2></button>
+        `
+        const botonAdd = document.querySelector("#btnAgregar")
+        botonAdd.onclick = () => {
+            if (jugador1.puntos >= 20 && jugador1.autos.length <=6){
+                let autoAux = generarAuto();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-success',
+                      cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                  })
+                  
+                  swalWithBootstrapButtons.fire({
+                    title: 'Comprar un auto cuesta 20 puntos',
+                    text: "Una vez comprado no se puede revertir!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si, comprar',
+                    cancelButtonText: 'No, cancelar!',
+                    reverseButtons: true
+                  }).then((result) => {
+                    if (result.isConfirmed) {
                         jugador1.sumarPuntos(-20);
-                        alert("obtuviste un "+ autoAux.modelo);
-                        op4 = prompt("quieres agregar este auto a tu garage? si/no (tenes una capacidad de 10 autos)");
-                        if (op4.toLowerCase() === "si") {
-                            if (jugador1.autos.length <= 9) {
-                                jugador1.agregarAuto(autoAux)
-                                alert("Auto nuevo agregado, se regresara al menu");
-                            } else {
-                                alert("Tu garage esta lleno")
-                                op = prompt("quitar un auto para agregar el nuevo? si/no")
-                                if (op.toLowerCase() === "si") {
-                                    alert("Elegi un auto")
-                                    jugador1.mostrarAutos();
-                                    op3 = Number(prompt("Ingresa el auto elegido:"));
-                                    jugador1.quitarAuto(op3 - 1)
-                                    if (op3 === 1) {
-                                        jugador1.elegirAuto(1)
-                                    }
-                                    alert("Auto eliminado");
-                                    jugador1.agregarAuto(autoAux);
-                                    alert("Auto nuevo agregado, se regresara al menu");
-                                } else {
-                                    alert("No se agrego el auto, se regresara al menu")
-                                }
-                            }
-                        }
-                    } else {
-                        alert("Tenes menos de 20 puntos y no podes comprar autos, se regresara al menu");
+                        jugador1.agregarAuto(autoAux)
+                        jugadorJSON = JSON.stringify(jugador1)
+                        localStorage.setItem("jugador1",jugadorJSON)
+                      swalWithBootstrapButtons.fire({
+                        title: 'Felicidades!',
+                        text: `Obtuviste un ${autoAux.modelo}`,
+                        imageUrl: './img/auto01.png',
+                        imageWidth: 285,
+                        imageHeight: 291,
+                        imageAlt: 'Custom image',
+                    })
+                    pantallaJugar()
+                    } else if (
+                      /* Read more about handling dismissals below */
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                      swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'No compraste un auto)',
+                        'error'
+                      )
                     }
-                    break;
-
-                default:
-                    alert("Regresando al menu principal")
-                    break;
+                  })
+                  
             }
-            break;
-        default:
-            alert("Gracias por jugar...")
-            op=3;
-            break;
+            
+        }
+    } else {
+        pantalla.innerHTML = `
+        <h1 id="titulojugar">Selecciona tu Auto</h1>
+        <!-- carrusel -->
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="imgCarrusel">
+              
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        <button class="botonInac botonActiv m" id="btnCorrer"><h2>Correr!!!</h2></button>
+        `
+        const carrusel = document.querySelector("#imgCarrusel")
+        for (let i = 0; i < jugador1.autos.length; i++) {
+            if (i===0) {
+                carrusel.innerHTML += `<div class="carousel-item active">
+                <img src="./img/auto01.png" width="290px" class="d-block " alt="...">
+                </div>`
+            } else {
+                carrusel.innerHTML += `<div class="carousel-item">
+                <img src="./img/auto01.png" width="290px" class="d-block " alt="...">
+                </div>`
+            }
+        }
+        const btnCorrer = document.querySelector("#btnCorrer")
+        btnCorrer.addEventListener("click", ()=>{
+            let oponente1 = generarAuto();
+            let oponente2 = generarAuto();
+            document.querySelector("#titulojugar").innerText = "Tus Oponentes"
+            btnCorrer.classList.add("invisible")
+            document.querySelector("#carouselExampleControls").innerHTML = `
+            <div class="centrar">
+                <div class="d-flex flex-column align-items-center">
+                    <img src="./img/auto01.png" width="290px" alt="" class="mx-2">
+                    <h3 class="text-dark">${oponente1.modelo}</h3>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <img src="./img/auto01.png" width="290px" alt="" class="mx-2">
+                    <h3 class="text-dark">${oponente2.modelo}</h3>
+                </div>
+            </div>`
+            setTimeout(()=>{
+                const puntos = carrera(jugador1.autos[jugador1.autoIndex],oponente1,oponente2)
+                jugador1.sumarPuntos(puntos)
+                jugadorJSON = JSON.stringify(jugador1)
+                localStorage.setItem("jugador1",jugadorJSON)
+                if (puntos>0) {
+                    Swal.fire('Ganaste la Carrera')
+                } else {
+                    Swal.fire('Perdiste la Carrera')
+                }
+            }, 2000);
+            setTimeout(()=>{
+                pantallaJugar()
+            },3000)
+        })
     }
 }
+
+btnGaraje.onclick = () => {
+    btnGaraje.classList.add("botonActiv")
+    h2s[1].setAttribute("style", "font-size: 64px;");
+    btnJugar.classList.remove("botonActiv")
+    h2s[0].removeAttribute("style");
+    btnTienda.classList.remove("botonActiv")
+    h2s[2].removeAttribute("style");
+}
+btnTienda.onclick = () => {
+    btnTienda.classList.add("botonActiv")
+    h2s[2].setAttribute("style", "font-size: 64px;");
+    btnJugar.classList.remove("botonActiv")
+    h2s[0].removeAttribute("style");
+    btnGaraje.classList.remove("botonActiv")
+    h2s[1].removeAttribute("style");
+}
+
+
+
+
