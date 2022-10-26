@@ -31,6 +31,9 @@ p{
     font-weight: 400;
     font-size: 24px;
 }
+.superTitulo{
+    font-size: 120px;
+}
 .centrar{
     display: flex;
     justify-content: center;

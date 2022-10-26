@@ -97,7 +97,7 @@ function carrera(auto, oponente1, oponente2){
             return -15
         }
     } else {
-        alert("No tenes combustible")
+        return 0
     }
 }
 if (localStorage.jugador1=== undefined) {
@@ -129,6 +129,9 @@ if (localStorage.jugador1=== undefined) {
     
 } else {
     jugador1 = JSON.parse(localStorage.jugador1)
+    document.querySelector("#nomUsuario").textContent = jugador1.nombre
+    document.querySelector("#puntos").textContent = jugador1.puntos
+    document.querySelector("#monedas").textContent = "0"
 }
 // let nomUser
 
@@ -180,6 +183,7 @@ btnJugar.onclick = function pantallaJugar () {
                   }).then((result) => {
                     if (result.isConfirmed) {
                         jugador1.sumarPuntos(-20);
+                        document.querySelector("#puntos").textContent = jugador1.puntos
                         jugador1.agregarAuto(autoAux)
                         jugadorJSON = JSON.stringify(jugador1)
                         localStorage.setItem("jugador1",jugadorJSON)
@@ -258,9 +262,12 @@ btnJugar.onclick = function pantallaJugar () {
             setTimeout(()=>{
                 const puntos = carrera(jugador1.autos[jugador1.autoIndex],oponente1,oponente2)
                 jugador1.sumarPuntos(puntos)
+                document.querySelector("#puntos").textContent = jugador1.puntos
                 jugadorJSON = JSON.stringify(jugador1)
                 localStorage.setItem("jugador1",jugadorJSON)
-                if (puntos>0) {
+                if (puntos===0) {
+                    Swal.fire('Tu auto no tiene Combustible')
+                } else if (puntos>0) {
                     Swal.fire('Ganaste la Carrera')
                 } else {
                     Swal.fire('Perdiste la Carrera')
@@ -268,7 +275,7 @@ btnJugar.onclick = function pantallaJugar () {
             }, 2000);
             setTimeout(()=>{
                 pantallaJugar()
-            },3000)
+            }, 3000)
         })
     }
 }
