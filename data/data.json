@@ -1,0 +1,100 @@
+[{
+    "id": 1,
+    "marca": "Ferrari",
+    "modelo": "SF90",
+    "descripcion": "",
+    "tipo": "Lujo",
+    "combustible": 75,
+    "velocidadMax": 320,
+    "aceleracion": 100,
+    "resitencia": 50 
+},
+{
+    "id": 2,
+    "marca": "Lamborghini",
+    "modelo": "Aventador",
+    "descripcion": "",
+    "tipo": "Lujo",
+    "combustible": 75,
+    "velocidadMax": 300,
+    "aceleracion": 90,
+    "resitencia": 60 
+},
+{
+    "id": 3,
+    "marca": "Bugatti",
+    "modelo": "Chiron",
+    "descripcion": "",
+    "tipo": "Lujo",
+    "combustible": 75,
+    "velocidadMax": 350,
+    "aceleracion": 100,
+    "resitencia": 40 
+},
+{
+    "id": 4,
+    "marca": "Fiat",
+    "modelo": "Punto",
+    "descripcion": "",
+    "tipo": "Medio",
+    "combustible": 100,
+    "velocidadMax": 240,
+    "aceleracion": 200,
+    "resitencia": 80 
+},
+{
+    "id": 5,
+    "marca": "Toyota",
+    "modelo": "Corolla",
+    "descripcion": "",
+    "tipo": "Medio",
+    "combustible": 100,
+    "velocidadMax": 250,
+    "aceleracion": 210,
+    "resitencia": 65 
+},
+{
+    "id": 6,
+    "marca": "Honda",
+    "modelo": "Civic",
+    "descripcion": "",
+    "tipo": "Medio",
+    "combustible": 100,
+    "velocidadMax": 260,
+    "aceleracion": 190,
+    "resitencia": 60 
+},
+{
+    "id": 7,
+    "marca": "Fiat",
+    "modelo": "Mobi",
+    "descripcion": "",
+    "tipo": "Basico",
+    "combustible": 125,
+    "velocidadMax": 150,
+    "aceleracion": 250,
+    "resitencia": 100 
+},
+{
+    "id": 8,
+    "marca": "Renault",
+    "modelo": "Kwid",
+    "descripcion": "",
+    "tipo": "Basico",
+    "combustible": 125,
+    "velocidadMax": 140,
+    "aceleracion": 240,
+    "resitencia": 110 
+},
+{
+    "id": 9,
+    "marca": "Chevrolet",
+    "modelo": "Spark",
+    "descripcion": "",
+    "tipo": "Basico",
+    "combustible": 125,
+    "velocidadMax": 155,
+    "aceleracion": 250,
+    "resitencia": 95 
+}
+]

@@ -1,0 +1,19 @@
+{
+  "name": "poryectojscoder",
+  "version": "1.0.0",
+  "description": "proyecto JS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orquera10/poryectoJScoder.git"
+  },
+  "author": "Dario Orquera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/orquera10/poryectoJScoder/issues"
+  },
+  "homepage": "https://github.com/orquera10/poryectoJScoder#readme"
+}
